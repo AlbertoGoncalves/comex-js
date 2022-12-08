@@ -1,0 +1,44 @@
+<%- include('includes/head'); %>
+<%- include('includes/sidebars'); %>
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-2"></div>
+
+    <div class="col-lg-8 my-3">
+      <h1 class="text-center">Agenda</h1>
+      <p class="text-center lead">Seus Cliente estão abaixo</p>
+
+      <%- include('includes/messages'); %>
+
+      <% if( contato.length > 0) { %>
+      <div class="responsive-table">
+        <table class="table my-3">
+          <% contato.forEach(cont =>{ %>
+            <tr>
+              <td><%= cont.nome %></td>
+              <td><%= cont.sobrenome %></td>
+              <td><%= cont.email %></td>
+              <td><%= cont.telefone %></td>
+              <div class="col-12">
+                <td><a href="/contato/index/<%= cont._id %>" class="btn btn-primary">Editar</a></td>
+                <td><a class="text-danger" href="/contato/delete/<%= cont._id %>" class="btn btn-primary">Excluir</a></td>
+              </div>
+            </tr>          
+          <% }); %>  
+
+        </table>
+      </div>
+      <% } else { %>
+
+        <p class="text-center lead">Não existem Cliente cadastrados</p>
+
+      <% } %>
+    
+    </div>
+
+  </div>
+
+</div>
+
+<%- include('includes/footer'); %> 

@@ -1,0 +1,57 @@
+<%- include('includes/head'); %>
+<%- include('includes/sidebars'); %>
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-2"></div>
+
+    <div class="col-lg-8 my-3">
+      <h1 class="text-center">Cliente</h1>
+      <p class="text-center lead">Crie ou edite o cliente abaixo.</p>
+
+      <%- include('includes/messages'); %>
+
+      <div class="responsive-table">
+        <% if(cliente._id) { %>
+          <form class="row g-3" action="/cliente/edit/<%= cliente._id %>" method="POST">
+        <% } else { %>
+          <form class="row g-3" action="/cliente/register" method="POST">
+        <% } %>
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <div class="col-md-6">
+            <label class="form-label">Cliente</label>
+            <input value="<%= cliente.nome %>" type="text" class="form-control" name="nome">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Pais</label>
+            <input value="<%= cliente.pais %>" type="text" class="form-control" name="pais">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Moeda de faturamento</label>
+            <input value="<%= cliente.moedaCli %>" type="text" class="form-control" name="moedaCli">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">E-mail</label>
+            <input value="<%= cliente.email %>" type="text" class="form-control" name="email">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Telefone</label>
+            <input value="<%= cliente.telefone %>" type="text" class="form-control" name="telefone">
+          </div>
+
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary">Salvar</button>
+          </div>
+        </form>
+
+
+
+      </div>
+    
+    </div>
+
+  </div>
+
+</div>
+
+<%- include('includes/footer'); %> 

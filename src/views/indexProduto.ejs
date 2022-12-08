@@ -1,0 +1,58 @@
+<%- include('includes/head'); %>
+<%- include('includes/sidebars'); %>
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-2"></div>
+
+    <div class="col-lg-8 my-3">
+      <h1 class="text-center">Produtos</h1>
+      <p class="text-center lead">Seus Produtos estão abaixo</p>
+
+      <%- include('includes/messages'); %>
+      
+      <div class="text-center col-12">
+        <td><a href="/produto/cadastro" class="btn btn-primary">Add Produto</a></td>
+      </div>
+
+      <% if( produto.length > 0) { %>
+      <div class="responsive-table">
+        <table class="table my-3">
+          <% produto.forEach(cont =>{ %>
+            <tr>
+              <td><%= cont.cod %></td>
+              <td><%= cont.nome %></td>
+              <td><%= cont.tipo %></td>
+              <td><%= cont.unid %></td>
+              <td><%= cont.fatConv %></td>
+              <td><%= cont.pesoLiq %></td>
+              <td><%= cont.pesoBrut %></td>
+              <td><%= cont.marca %></td>
+              <div class="col-12">
+                <td><a href="/produto/cadastro/<%= cont._id %>" class="btn btn-primary">Editar</a></td>
+                <td><a class="text-danger" href="/produto/delete/<%= cont._id %>" class="btn btn-primary">Excluir</a></td>
+              </div>
+            </tr>          
+          <% }); %>  
+
+        </table>
+      </div>
+      <% } else { %>
+
+        <p class="text-center lead">Não existem Produto cadastrados</p>
+
+      <% } %>
+    
+    </div>
+
+    <% if( produto.length > 8) { %>
+      <div class="text-center col-12">
+        <td><a href="/produto/cadastro" class="btn btn-primary">Add Produto</a></td>
+      </div>
+    <% } %>
+
+  </div>
+
+</div>
+
+<%- include('includes/footer'); %> 

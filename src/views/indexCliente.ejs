@@ -1,0 +1,56 @@
+<%- include('includes/head'); %>
+<%- include('includes/sidebars'); %>
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-2"></div>
+
+    <div class="col-lg-8 my-3">
+      <h1 class="text-center">Clientes</h1>
+      <p class="text-center lead">Seus Cliente estão abaixo</p>
+
+      <%- include('includes/messages'); %>
+      
+      <div class="text-center col-12">
+        <td><a href="/cliente/cadastro" class="btn btn-primary">Add Cliente</a></td>
+      </div>
+
+      <% if( cliente.length > 0) { %>
+      <div class="responsive-table">
+        <table class="table my-3">
+          <% cliente.forEach(cont =>{ %>
+            <tr>
+              <td><%= cont.nome %></td>
+              <td><%= cont.pais %></td>
+              <td><%= cont.moedaCli %></td>
+              <td><%= cont.email %></td>
+              <td><%= cont.telefone %></td>
+              <!-- <td><%= cont.criadoEm %></td> -->
+              <div class="col-12">
+                <td><a href="/cliente/cadastro/<%= cont._id %>" class="btn btn-primary">Editar</a></td>
+                <td><a class="text-danger" href="/cliente/delete/<%= cont._id %>" class="btn btn-primary">Excluir</a></td>
+              </div>
+            </tr>          
+          <% }); %>  
+
+        </table>
+      </div>
+      <% } else { %>
+
+        <p class="text-center lead">Não existem Cliente cadastrados</p>
+
+      <% } %>
+    
+    </div>
+
+    <% if( cliente.length > 8) { %>
+      <div class="text-center col-12">
+        <td><a href="/cliente/cadastro" class="btn btn-primary">Add Cliente</a></td>
+      </div>
+    <% } %>
+
+  </div>
+
+</div>
+
+<%- include('includes/footer'); %> 

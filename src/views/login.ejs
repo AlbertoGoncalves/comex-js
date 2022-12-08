@@ -1,0 +1,74 @@
+<%- include('includes/head'); %>
+<%- include('includes/sidebars'); %>
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-2"></div>
+
+    <div class="col-lg-8 my-3">
+      <h1 class="text-center">Sistema COMEX</h1>
+      <!-- <p class="text-center lead">Para inciar faça login ou crie sua conta abaixo</p> -->
+    
+      <%- include('includes/messages'); %>
+
+      <div class="row">
+        <div class="col my-3">
+        <h4>Cadastro</h4>
+        <p>Se você ainda não tem uma conta, preencha o formulario abaixo:</p>
+
+        <form class="row g-3 " action="/login/register" method="POST">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <div class="col-md-6">
+            <label class="form-label">Usuario</label>
+            <input type="text" class="form-control" name="idUser">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-control" name="email">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Sua Senha</label>
+            <input type="password" class="form-control" name="password">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Confirme sua senha</label>
+            <input type="password" class="form-control" name="password2">
+          </div>
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary">Criar minha conta</button>
+          </div>
+        </form>
+
+        </div>
+        
+        <div class="col my-3">
+          <h4>Entrar </h4>
+          <p>Se você ja tem uma conta, faça login abaixo:</p>
+          <form class="row g-3 " action="/login/login" method="POST">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <div class="col-md-6">
+              <label class="form-label">Email</label>
+              <input type="email" class="form-control" name="email">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Sua Senha</label>
+              <input type="password" class="form-control" name="password">
+            </div>
+            <div class="col-12">
+              <button type="submit" class="btn btn-primary">Entrar</button>
+            </div>
+          </form>
+
+
+
+        
+        </div>
+      </div>
+    
+    </div>
+
+  </div>
+
+</div>
+
+<%- include('includes/footer'); %> 

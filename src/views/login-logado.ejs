@@ -1,0 +1,18 @@
+<%- include('includes/head'); %>
+
+<%- include('includes/sidebars'); %>
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-2"></div>
+
+    <div class="col-lg-8 my-3">
+      <h1 class="text-center">Bem vindo <%= user.idUser %> </h1>
+      <p class="text-center lead">Para iniciar o processo de faturamento clicar em Faturar </p>
+      <%- include('includes/messages'); %>
+    </div>
+  </div>   
+</div>
+
+
+<%- include('includes/footer'); %> 

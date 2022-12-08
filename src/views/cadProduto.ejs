@@ -1,0 +1,69 @@
+<%- include('includes/head'); %>
+<%- include('includes/sidebars'); %>
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-2"></div>
+
+    <div class="col-lg-8 my-3">
+      <h1 class="text-center">Produto</h1>
+      <p class="text-center lead">Crie ou edite o produto abaixo.</p>
+
+      <%- include('includes/messages'); %>
+
+      <div class="responsive-table">
+        <% if(produto._id) { %>
+          <form class="row g-3" action="/produto/edit/<%= produto._id %>" method="POST">
+        <% } else { %>
+          <form class="row g-3" action="/produto/register" method="POST">
+        <% } %>
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <div class="col-md-6">
+            <label class="form-label">Codigo</label>
+            <input value="<%= produto.cod %>" type="text" class="form-control" name="cod">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Produto</label>
+            <input value="<%= produto.nome %>" type="text" class="form-control" name="nome">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Marca</label>
+            <input value="<%= produto.marca %>" type="text" class="form-control" name="marca">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Tipo</label>
+            <input value="<%= produto.tipo %>" type="text" class="form-control" name="tipo">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Unidade</label>
+            <input value="<%= produto.unid %>" type="text" class="form-control" name="unid">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Fator de conversão</label>
+            <input value="<%= produto.fatConv %>" type="number" class="form-control" name="fatConv">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Peso Liquido</label>
+            <input value="<%= produto.pesoLiq %>" type="number" class="form-control" name="pesoLiq">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Peso bruto</label>
+            <input value="<%= produto.pesoBrut %>" type="number" class="form-control" name="pesoBrut">
+          </div>
+
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary">Salvar</button>
+          </div>
+        </form>
+
+
+
+      </div>
+    
+    </div>
+
+  </div>
+
+</div>
+
+<%- include('includes/footer'); %> 
