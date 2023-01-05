@@ -47,9 +47,20 @@ route.get ('/produto/delete/:id', loginRequired, produtoController.delete);
 
 
 const pedidoController = require('./src/controllers/pedidoController');
-// Rotas de clientes
-route.get ('/pedidovenda/index', loginRequired, pedidoController.index);
-route.get ('/pedidovenda/cadastro', loginRequired, pedidoController.cadastro);
+// Rotas de Pedido
+route.get ('/pedido/index', loginRequired, pedidoController.index);
+route.get ('/pedido/cadastro', loginRequired, pedidoController.cadastro);
+route.post('/pedido/register', loginRequired, pedidoController.register);
+route.get ('/pedido/cadastro/:id', loginRequired, pedidoController.editIndex);
+route.post('/pedido/edit/:id', loginRequired, pedidoController.edit);
+route.get ('/pedido/delete/:id', loginRequired, pedidoController.delete);
+
+const itemPedidoController = require('./src/controllers/itemPedidoController');
+// Rotas de Item Pedido
+route.post('/itemPedido/register', loginRequired, itemPedidoController.register);
+route.get ('/itemPedido/cadastro/:id', loginRequired, itemPedidoController.editIndex);
+route.post('/itemPedido/edit/:id', loginRequired, itemPedidoController.edit);
+route.get ('/itemPedido/delete/:id', loginRequired, itemPedidoController.delete);
 
 
 module.exports = route;

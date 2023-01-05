@@ -1,5 +1,6 @@
 const { async } = require('regenerator-runtime');
 const Pedido = require('../models/PedidoModel');
+const ItemPedido = require('../models/ItemPedidoModel');
 
 exports.index = async (req, res) => {
   const pedido = await Pedido.buscaPedidos();
@@ -7,7 +8,7 @@ exports.index = async (req, res) => {
 };
 
 exports.cadastro = (req, res) => {
-  res.render('pv', {pedido:{}});  
+  res.render('cadPedido', {pedido:{}});  
 };
 
 
@@ -42,9 +43,11 @@ exports.editIndex = async function(req, res) {
 
   const pedido = await Pedido.buscaPorId(req.params.id);
   
+  const itemPedido = await ItemPedido.buscaItemPedidos(req.params.id);
+
   if(!pedido) return res.render('404');
   
-  res.render('cadPedido', {pedido});
+  res.render('cadPedido', { pedido, itemPedido });
 };  
 
 

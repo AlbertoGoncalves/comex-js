@@ -1,68 +1,122 @@
 <%- include('includes/head'); %>
 <%- include('includes/sidebars'); %>
 
+
+
+
 <div class="container">
-  <div class="row">
-    <div class="col-lg-2"></div>
-
-    <div class="col-lg-8 my-3">
-      <h1 class="text-center">Produto</h1>
-      <p class="text-center lead">Crie ou edite o produto abaixo.</p>
-
-      <%- include('includes/messages'); %>
-
-      <div class="responsive-table">
-        <% if(produto._id) { %>
-          <form class="row g-3" action="/produto/edit/<%= produto._id %>" method="POST">
-        <% } else { %>
-          <form class="row g-3" action="/produto/register" method="POST">
-        <% } %>
-          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-          <div class="col-md-6">
-            <label class="form-label">Codigo</label>
-            <input value="<%= produto.cod %>" type="text" class="form-control" name="cod">
-          </div>
-          <div class="col-md-6">
-            <label class="form-label">Produto</label>
-            <input value="<%= produto.nome %>" type="text" class="form-control" name="nome">
-          </div>
-          <div class="col-md-6">
-            <label class="form-label">Marca</label>
-            <input value="<%= produto.marca %>" type="text" class="form-control" name="marca">
-          </div>
-          <div class="col-md-6">
-            <label class="form-label">Tipo</label>
-            <input value="<%= produto.tipo %>" type="text" class="form-control" name="tipo">
-          </div>
-          <div class="col-md-6">
-            <label class="form-label">Unidade</label>
-            <input value="<%= produto.unid %>" type="text" class="form-control" name="unid">
-          </div>
-          <div class="col-md-6">
-            <label class="form-label">Fator de conversão</label>
-            <input value="<%= produto.fatConv %>" type="number" class="form-control" name="fatConv">
-          </div>
-          <div class="col-md-6">
-            <label class="form-label">Peso Liquido</label>
-            <input value="<%= produto.pesoLiq %>" type="number" class="form-control" name="pesoLiq">
-          </div>
-          <div class="col-md-6">
-            <label class="form-label">Peso bruto</label>
-            <input value="<%= produto.pesoBrut %>" type="number" class="form-control" name="pesoBrut">
-          </div>
-
-          <div class="col-12">
-            <button type="submit" class="btn btn-primary">Salvar</button>
-          </div>
-        </form>
-
-
-
-      </div>
     
-    </div>
-
+  <div class="b-example-divider row ">
+    <h3 class=" ">Pedido de Venda</h3>
   </div>
+  
+  <div class="list-group w-auto my-2">
+    <div class="list-group-item d-flex py-1">
+      <div class="d-flex row w-100 justify-content-between">
+        <div class="col-xl my-1">
+        
+          <%- include('includes/messages'); %>
+          
+          <div class="responsive-table">
+            <% if(pedido._id) { %>
+              <form class="row g-2" action="/pedido/edit/<%= pedido._id %>" method="POST">
+            <% } else { %>
+              <form class="row g-2" action="/pedido/register" method="POST">
+            <% } %>        
+            
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+              
+              <div class="row g-2">
+                <div class="col-md-2">
+                  <label class="form-label">Pedido</label>
+                  <input type="text" value="<%= pedido.numPedido %>" class="form-control" id="numPedido" name="numPedido">
+                </div>
+                <div class="col-md-2">
+                  <label class="form-label">Cod. Cliente</label>
+                  <input type="text" value="<%= pedido.codCli %>" class="form-control" name="codCli" id=codCli >
+                </div>
+                <div class="col-md-8">
+                  <label class="form-label">Cliente</label>
+                  <input type="text" value="<%= pedido.cliente %>" class="form-control" name="cliente" id=cliente >
+                </div>
+              </div>
+    
+              <div class="row g-2">
+                <div class="col-sm-3">
+                  <label class="form-label">Data Cambio</label>
+                  <input type="date" value="<%= pedido.dtCambio %>" class="form-control" id="dtCambio" name="dtCambio" onchange="getCampos('dtCambio')">
+                </div>
+                
+                <div class="col-sm-3">
+                  <label class="form-label">Moeda Cliente</label>
+                  <input type="text" value="<%= pedido.moedCiente %>" class="form-control" name="moedCiente" id=moedCiente onchange="getCampos('moedCiente')">
+                </div>
+    
+                <div class="col-md-3">
+                  <label class="form-label">Taxa Dolar</label>
+                  <input type="number" value="<%= pedido.txDolar %>" class="form-control" id="txDolar" >
+                </div>
+                
+                <div class="col-md-3">
+                  <label class="form-label">Taxa Euro</label>
+                  <input type="number" value="<%= pedido.txEuro %>" class="form-control" id="txEuro" >
+                </div>
+              </div>
+    
+              <div class="row g-2">
+                <div class="col-sm-4">
+                  <label class="form-label">Moeda Frete Internacional</label>
+                  <input type="text" value="<%= pedido.moedFretInter %>" class="form-control" name="moedFretInter" id=moedFretInter onchange="getCampos('moedFretInter')">
+                </div>
+                
+                <div class="col-sm-4">
+                  <label class="form-label">Valor KG Frete Internacional</label>
+                  <input type="number" value="<%= pedido.fretInter %>" class="form-control" placeholder="$" name="fretInter" id="fretInter" onchange="getCampos('fretInter')">
+                </div>    
+              </div>
+              
+              <div class="row g-2">
+                <div class="col-sm-4">
+                  <label class="form-label">Moeda Frete Rodoviario</label>
+                  <input type="text" value="<%= pedido.moedFretRod %>" class="form-control" name="moedFretRod" id="moedFretRod" onchange="getCampos('moedFretRod')">
+                </div>
+                
+                <div class="col-sm-4">
+                  <label class="form-label">Valor KG Frete Rodoviario</label>
+                  <input type="number" value="<%= pedido.fretRod %>" class="form-control" placeholder="$" name="fretRod" id="fretRod" onchange="getCampos('fretRod')">
+                </div>
+
+                <div class="row g-2">
+                  <div class="col-sm-4">
+                    <label class="form-label">Valor Total pedido Moeda Cliente</label>
+                    <input type="text" value="<%= pedido.vlTotalMoedaCli %>" class="form-control" name="vlTotalMoedaCli" id="vlTotalMoedaCli">
+                  </div>
+                  
+                  <div class="col-sm-4">
+                    <label class="form-label">Valor pedido em Real</label>
+                    <input type="number" value="<%= pedido.vlTotalMoedaBlr %>" class="form-control" placeholder="$" name="vlTotalMoedaBlr" id="vlTotalMoedaBlr">
+                  </div>
+                
+                <div class="d-flex col-sm-4 g-4 justify-content-end">
+                  <% if(pedido._id) { %>
+                      <button type="submit" class="btn btn-primary">Alterar Pedido</button>
+                  <% } else { %>
+                      <button type="submit" class="btn btn-primary">Criar Pedido</button>
+                  <% } %> 
+                </div>
+              
+              </div>
+      
+            
+            </form>
+          </div>
+      </div>
+    </div>
+  </div>
+  
+  </div>
+
+  <%- include('itemCadPedido'); %>
 
 </div>
 
