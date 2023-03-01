@@ -3,7 +3,7 @@
     <div class="list-group-item d-flex py-1">
       <div class="d-flex row w-100 justify-content-between">
         
-          <form class="row g-2" action="/itemPedido/register" method="POST">
+          <form class="row g-2" action="/itemPedido/register/<%= pedido._id %>" method="POST">
             <input type="hidden" name="idPedido" value="<%= pedido._id %>">
             <input type="hidden" name="numPedido" value="<%= pedido.numPedido %>">
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
@@ -11,46 +11,50 @@
             <div class="row g-2">
               <div class="col-sm-2">
                 <label class="form-label">Codigo</label>
-                <input type="text" value="" class="form-control" name="prodCod" id=prodCod>
+                <select type="text" value="" class="form-control" name="prodCod">    
+                  <% produto.forEach(cont =>{ %>
+                    <option><%= cont.cod + '-' + cont.nome %></option>                                                
+                  <% }); %>
+                </select>
               </div>
               
-              <div class="col-sm-6">
+              <!-- <div class="col-sm-6">
                 <label class="form-label">Produto</label>
                 <input type="text" class="form-control" name="prodNome" id="prodNome">
               </div>
               
-            </div>
+            </div> -->
     
-            <div class="row g-1">
+            <!-- <div class="row g-1">
               <div class="col-sm-2">
                 <label class="form-label">Unidade</label>
                 <input type="text" class="form-control" name="prodUnid" id="prodUnid">
-              </div>
+              </div> -->
               
               <div class="col-sm-2">
                 <label class="form-label">Quant</label>
                 <input type="number" class="form-control" name="prodQuant" id="prodQuant">
               </div>
     
-              <div class="col-sm-2">
+              <!-- <div class="col-sm-2">
                 <label class="form-label">Peso Liq.</label>
                 <input type="number" class="form-control" name="prodPesoLiq" id="prodPesoLiq">
-              </div>
+              </div> -->
               
-              <div class="col-sm-2">
+              <!-- <div class="col-sm-2">
                 <label class="form-label">Peso Bruto</label>
                 <input type="number" class="form-control" name="prodPesoBrut" id="prodPesoBrut">
-              </div>
+              </div> -->
               
               <div class="col-sm-2">
                 <label class="form-label">Valor Unit.</label>
                 <input type="number" class="form-control" name="prodVlUnit" id="prodVlUnit">
               </div>
               
-              <div class="col-sm-2">
+              <!-- <div class="col-sm-2">
                 <label class="form-label">Valor Total</label>
                 <input type="number" class="form-control" name="prodVlTot" id="prodVlTot">
-              </div>
+              </div> -->
     
             </div>
     
@@ -105,12 +109,12 @@
   
                 <div class="col-sm-2">
                   <p class="mb-0 opacity-75 text-nowrap">Total Peso Liq</p>
-                  <p class="mb-0 opacity-75 text-nowrap"><%= cont1.prodVlUnit %></p>
+                  <p class="mb-0 opacity-75 text-nowrap"><%= cont1.prodPesoLiq %></p>
                 </div>
                 
                 <div class="col-sm-2">
                   <p class="mb-0 opacity-75 text-nowrap">Total Peso Bruto</p>
-                  <p class="mb-0 opacity-75 text-nowrap"><%= cont1.prodVlUnit %></p>
+                  <p class="mb-0 opacity-75 text-nowrap"><%= cont1.prodPesoBrut %></p>
                 </div>            
               </div>  
             </div>

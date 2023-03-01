@@ -19,9 +19,9 @@
           
           <div class="responsive-table">
             <% if(pedido._id) { %>
-              <form class="row g-2" action="/pedido/edit/<%= pedido._id %>" method="POST">
+              <form class="formPedido row g-2" action="/pedido/edit/<%= pedido._id %>" method="POST">
             <% } else { %>
-              <form class="row g-2" action="/pedido/register" method="POST">
+              <form class="formPedido row g-2" action="/pedido/register" method="POST">
             <% } %>        
             
               <input type="hidden" name="_csrf" value="<%= csrfToken %>">
@@ -29,74 +29,194 @@
               <div class="row g-2">
                 <div class="col-md-2">
                   <label class="form-label">Pedido</label>
-                  <input type="text" value="<%= pedido.numPedido %>" class="form-control" id="numPedido" name="numPedido">
+                  <input type="text" value="<%= pedido.numPedido %>" class="form-control" name="numPedido" disabled>
                 </div>
+                
                 <div class="col-md-2">
                   <label class="form-label">Cod. Cliente</label>
-                  <input type="text" value="<%= pedido.codCli %>" class="form-control" name="codCli" id=codCli >
+                    
+                  <% if (!pedido._id) { %>
+                    <select value="<%= pedido.codCli %>" type="text" class="form-control" name="codCli">    
+                      <% cliente.forEach(cont =>{ %>
+                      <option><%= cont.codCli + '-' + cont.nome %></option>                                                
+                      <% }); %>
+                    </select>
+                  <% } else { %>
+
+                    <input value="<%= pedido.codCli %>" type="text" class="form-control" name="codCli" disabled>    
+                  <% } %>  
+
                 </div>
+                
                 <div class="col-md-8">
                   <label class="form-label">Cliente</label>
-                  <input type="text" value="<%= pedido.cliente %>" class="form-control" name="cliente" id=cliente >
+                  <input type="text" value="<%= pedido.cliente %>" class="form-control" name="cliente" disabled >
                 </div>
               </div>
     
               <div class="row g-2">
                 <div class="col-sm-3">
                   <label class="form-label">Data Cambio</label>
-                  <input type="date" value="<%= pedido.dtCambio %>" class="form-control" id="dtCambio" name="dtCambio" onchange="getCampos('dtCambio')">
+                  <% if (!pedido._id) { %>
+                    <input type="date" value="<%= pedido.dtCambio %>" class="form-control" name="dtCambio">
+                  <% } else { %>
+                    <input type="date" value="<%= pedido.dtCambio %>" class="form-control" name="dtCambio" disabled>
+                  <% } %>  
+  
+
                 </div>
                 
                 <div class="col-sm-3">
                   <label class="form-label">Moeda Cliente</label>
-                  <input type="text" value="<%= pedido.moedCiente %>" class="form-control" name="moedCiente" id=moedCiente onchange="getCampos('moedCiente')">
+                  <input type="text" value="<%= pedido.moedCiente %>" class="form-control" name="moedCiente" disabled>
                 </div>
     
                 <div class="col-md-3">
-                  <label class="form-label">Taxa Dolar</label>
-                  <input type="number" value="<%= pedido.txDolar %>" class="form-control" id="txDolar" >
+                  <label class="form-label">Cambio Dolar</label>
+                  <% if (!pedido._id) { %>
+                    <input type="number" value="<%= pedido.txDolar %>" class="form-control" name="txDolar">
+                  <% } else { %>
+                    <input type="number" value="<%= pedido.txDolar %>" class="form-control" name="txDolar" disabled>
+                  <% } %>  
+  
                 </div>
                 
                 <div class="col-md-3">
-                  <label class="form-label">Taxa Euro</label>
-                  <input type="number" value="<%= pedido.txEuro %>" class="form-control" id="txEuro" >
+                  <label class="form-label">Cambio Cliente</label>
+                  <% if (!pedido._id) { %>
+                    <input type="number" value="<%= pedido.txEuro %>" class="form-control" name="txEuro">
+                  <% } else { %>
+                    <input type="number" value="<%= pedido.txEuro %>" class="form-control" name="txEuro" disabled>
+                  <% } %>  
                 </div>
               </div>
     
               <div class="row g-2">
                 <div class="col-sm-4">
                   <label class="form-label">Moeda Frete Internacional</label>
-                  <input type="text" value="<%= pedido.moedFretInter %>" class="form-control" name="moedFretInter" id=moedFretInter onchange="getCampos('moedFretInter')">
+
+                  <% if (!pedido._id) { %>
+                    <select value="<%= pedido.moedFretInter %>" type="text" class="form-control" name="moedFretInter">
+                      <option><%= pedido.moedFretInter %></option>
+                      <%- include('includes/Moedas'); %>
+                    </select>
+                  <% } else { %>
+                    <input value="<%= pedido.moedFretInter %>" type="text" class="form-control" name="moedFretInter" disabled>
+                  <% } %>  
+  
                 </div>
                 
                 <div class="col-sm-4">
-                  <label class="form-label">Valor KG Frete Internacional</label>
-                  <input type="number" value="<%= pedido.fretInter %>" class="form-control" placeholder="$" name="fretInter" id="fretInter" onchange="getCampos('fretInter')">
-                </div>    
+                  <label class="form-label">Valor KG Frete Internacional</label> 
+                  <% if (!pedido._id) { %>
+                    <input type="number" value="<%= pedido.fretInter %>" class="form-control" placeholder="$" name="fretInter">
+                  <% } else { %>
+                    <input type="number" value="<%= pedido.fretInter %>" class="form-control" placeholder="$" name="fretInter" disabled>
+                  <% } %>  
+  
+                </div>
+                
+                <% if ((!pedido._id & !pedido.TFreteInterKgExp)) { %>
+                  <% } else { %>
+                    <div class="col-sm-4">
+                      <label class="form-label">Total Frete Internacional <%= pedido.moedCiente %></label>
+                      <input type="number" value="<%= pedido.TFreteInterKgExp %>" class="form-control" placeholder="$" name="fretRod" disabled>    
+                    </div>
+                  <% } %>
               </div>
               
               <div class="row g-2">
                 <div class="col-sm-4">
                   <label class="form-label">Moeda Frete Rodoviario</label>
-                  <input type="text" value="<%= pedido.moedFretRod %>" class="form-control" name="moedFretRod" id="moedFretRod" onchange="getCampos('moedFretRod')">
+
+                  <% if (!pedido._id) { %>
+                    <select value="<%= pedido.moedFretRod %>" type="text" class="form-control" name="moedFretRod">
+                      <option><%= pedido.moedFretInter %></option>
+                      <%- include('includes/Moedas'); %>
+                    </select>  
+                  <% } else { %>
+                    <input value="<%= pedido.moedFretRod %>" type="text" class="form-control" name="moedFretRod" disabled>
+                  <% } %>  
+  
                 </div>
                 
                 <div class="col-sm-4">
                   <label class="form-label">Valor KG Frete Rodoviario</label>
-                  <input type="number" value="<%= pedido.fretRod %>" class="form-control" placeholder="$" name="fretRod" id="fretRod" onchange="getCampos('fretRod')">
+                  <% if (!pedido._id) { %>
+                    <input type="number" value="<%= pedido.fretRod %>" class="form-control" placeholder="$" name="fretRod">
+                  <% } else { %>
+                    <input type="number" value="<%= pedido.fretRod %>" class="form-control" placeholder="$" name="fretRod" disabled>
+                  <% } %>  
                 </div>
 
+                <% if ((!pedido._id & !pedido.TFreteRodKgExp)) { %>
+                <% } else { %>
+                  <div class="col-sm-4">
+                    <label class="form-label">Total Frete Rodoviario <%= pedido.moedCiente %></label>
+                    <input type="number" value="<%= pedido.TFreteRodKgExp %>" class="form-control" placeholder="$" name="fretRod" disabled>    
+                  </div>
+                <% } %>
+
+                <% if ((!pedido._id & !pedido.quantTotal)) { %>
+                <% } else { %>
+                  <div class="col-sm-4">
+                    <label class="form-label">Total itens</label>
+                    <input type="number" value="<%= pedido.quantTotal %>" class="form-control" placeholder="$" name="fretRod" disabled>    
+                  </div>
+                <% } %>
+
+                <% if ((!pedido._id & !pedido.totKgLiq)) { %>
+                <% } else { %>
+                  <div class="col-sm-4">
+                    <label class="form-label">Total KG liquido</label>
+                    <input type="number" value="<%= pedido.totKgLiq %>" class="form-control" placeholder="$" name="fretRod" disabled>    
+                  </div>
+                <% } %>
+
+                <% if (!pedido._id & !pedido.totkgBrut){ %>
+                <% } else { %>
+                  <div class="col-sm-4">
+                    <label class="form-label">Total KG bruto</label>
+                    <input type="number" value="<%= pedido.totkgBrut %>" class="form-control" placeholder="$" name="fretRod" disabled>    
+                  </div>
+                <% } %>
+
+
+
+              </div>
+
+              <div class="row g-2">
+                <% if (!pedido._id & !pedido.TotProdutExp){ %>
+                  <% } else { %>
+                    <div class="col-sm-4">
+                      <label class="form-label">Valor Total Produtos <%= pedido.moedCiente %></label>
+                      <input type="number" value="<%= pedido.TotProdutExp %>" class="form-control" placeholder="$" name="fretRod" disabled>    
+                    </div>
+                  <% } %>
+  
+                  <% if (!pedido._id & !pedido.TotProdutBLR){ %>
+                  <% } else { %>
+                    <div class="col-sm-4">
+                      <label class="form-label">Valor Total Produtos Real</label>
+                      <input type="number" value="<%= pedido.TotProdutBLR %>" class="form-control" placeholder="$" name="fretRod" disabled>    
+                    </div>
+                  <% } %>
+              </div>              
+              
+              <div class="row g-2">
                 <div class="row g-2">
                   <div class="col-sm-4">
-                    <label class="form-label">Valor Total pedido Moeda Cliente</label>
-                    <input type="text" value="<%= pedido.vlTotalMoedaCli %>" class="form-control" name="vlTotalMoedaCli" id="vlTotalMoedaCli">
+                    <label class="form-label">Valor Total pedido <%= pedido.moedCiente %></label>
+                    <input type="text" value="<%= pedido.TotFatExp %>" class="form-control" name="vlTotalMoedaCli" disabled>
                   </div>
                   
                   <div class="col-sm-4">
                     <label class="form-label">Valor pedido em Real</label>
-                    <input type="number" value="<%= pedido.vlTotalMoedaBlr %>" class="form-control" placeholder="$" name="vlTotalMoedaBlr" id="vlTotalMoedaBlr">
+                    <input type="number" value="<%= pedido.TotFatBRL %>" class="form-control" placeholder="$" name="vlTotalMoedaBlr" disabled>
                   </div>
-                
+              </div>
+
+              <div class="row g-2">
                 <div class="d-flex col-sm-4 g-4 justify-content-end">
                   <% if(pedido._id) { %>
                       <button type="submit" class="btn btn-primary">Alterar Pedido</button>
@@ -104,9 +224,7 @@
                       <button type="submit" class="btn btn-primary">Criar Pedido</button>
                   <% } %> 
                 </div>
-              
               </div>
-      
             
             </form>
           </div>

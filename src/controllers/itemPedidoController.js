@@ -1,15 +1,15 @@
 const { async } = require('regenerator-runtime');
 const ItemPedido = require('../models/ItemPedidoModel');
-
-// exports.listItensPedido = async (req, res) => {
-//   const itemPedido = await ItemPedido.buscaItemPedidos();
-//   res.render('itemPedido', { itemPedido });
-// };
+const Produto = require('../models/ProdutoModel');
+const Pedido = require('../models/PedidoModel');
 
 exports.register = async function(req, res) {
   try {
     const itemPedido = new ItemPedido(req.body);
     await itemPedido.register();
+
+    const pedido = new Pedido(req.body);
+    await pedido.CalcPedido(req.params.id);
     
     if (itemPedido.errors.length > 0) {
       req.flash('errors', itemPedido.errors);
@@ -40,6 +40,21 @@ exports.editIndex = async function(req, res) {
   
   res.render('cadPedido', {itemPedido});
 };  
+
+exports.editIndex = async function(req, res) {
+  if(!req.params.id) return res.render('404');
+
+  const pedido = await Pedido.buscaPorId(req.params.id);
+
+  // const cliente = await Cliente.buscaPorCodCli(pedido.codCli);
+  const produto = await Produto.buscaProdutos();
+
+  const itemPedido = await ItemPedido.buscaItemPedidos(req.params.id);
+  
+  if(!pedido) return res.render('404');
+  
+  res.render('cadPedido', { pedido, itemPedido, produto});
+}; 
 
 
 

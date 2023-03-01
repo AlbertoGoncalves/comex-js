@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const { async } = require('regenerator-runtime');
+const Produto = require('../models/ProdutoModel');
+const Pedido = require('./PedidoModel');
 
 const ItemPedidoSchema = new mongoose.Schema({
     idPedido: { type: String, required: false },
@@ -25,44 +27,29 @@ class ItemPedido {
 
     async register() {
         
-        console.log("Entrou no Resgister 1")
-
         this.validaItemPedido();
         
         if(this.errors.length > 0) return;
 
         // await this.codCliExiste();
-        
-        // await this.numItemPedidoExiste();
+
+        await this.updtCamposProduto();
 
         if(this.errors.length > 0) return;
 
         this.itemPedido = await ItemPedidoModel.create(this.body);
 
+        if(this.errors.length > 0) return;
 
     }
-
-    // async codProdExiste() {
-    //     if(this.body.cod) { 
-    //         this.itemPedido = await ItemPedidoModel.findOne({ cod: this.body.cod});
-    //         if(this.itemPedido) this.errors.push('Codigo do Produto não cadastrado');
-    //     }
-    // }
-
-    // async numItemPedidoExiste() {
-    //     if(this.body.nome) { 
-    //         this.itemPedido = await ItemPedidoModel.findOne({ numItemPedido: this.body.numItemPedido});
-    //         if(this.itemPedido) this.errors.push('Numero do itemPedido já existe');
-    //     }
-    // }
 
     validaItemPedido() {
 
         this.cleanUp(); //Verifica se é String
 
         //Validacao    
-        console.log("pos tratamento cleanUp");
-        console.log(this.body);
+        // console.log("pos tratamento cleanUp");
+        // console.log(this.body);
         if(!this.body.prodCod) this.errors.push('Codigo do produto é uma informação obrigatoria')
         if(!this.body.prodQuant) this.errors.push('Quantidade é uma informação obrigatoria')
         if(!this.body.prodVlUnit) this.errors.push('Valor unitario é uma informação obrigatoria')
@@ -71,7 +58,7 @@ class ItemPedido {
 
     cleanUp() {
         console.log("cleanUp");
-        console.log(this.body);
+        // console.log(this.body);
 
         for(const key in this.body){
             if(typeof this.body[key] !== 'string' && typeof this.body[key] !== 'number') {
@@ -94,6 +81,21 @@ class ItemPedido {
 
     }
 
+    async updtCamposProduto(){
+        const codPrd = String(this.body.prodCod).substr(0, 6);  
+        const protudo = await Produto.buscaPorProduto( codPrd );
+        // console.log(protudo);
+
+        protudo.forEach(cont =>{
+            this.body.prodCod = cont.cod;
+            this.body.prodNome = cont.nome;
+            this.body.prodUnid = cont.unid;
+            this.body.prodPesoLiq = cont.pesoLiq * this.body.prodQuant;
+            this.body.prodPesoBrut = cont.pesoBrut  * this.body.prodQuant;
+        });
+        this.body.prodVlTot = this.body.prodQuant * this.body.prodVlUnit;
+    }
+
     async edit(id) {
         if(typeof id !== 'string') return;
 
@@ -106,8 +108,6 @@ class ItemPedido {
     }  
 
 }
-
-
 
 //Metodos Estaticos Não tem acesso ao THIS
 ItemPedido.buscaPorId = async function(id) {

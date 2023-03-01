@@ -3,6 +3,7 @@ const { async } = require('regenerator-runtime');
 const validator = require('validator');
 
 const ClienteSchema = new mongoose.Schema({
+    codCli: { type: String, required: false },
     nome: { type: String, required: true },
     pais: { type: String, required: false, default: '' },
     moedaCli: { type: String, required: false, default: '' },
@@ -30,6 +31,8 @@ class Cliente {
         await this.telefoneExiste();
         
         await this.nomeExiste();
+
+        await this.proxCodTab();
 
         if(this.errors.length > 0) return;
 
@@ -59,8 +62,24 @@ class Cliente {
         }
     }
 
+    //Busca o utimo elemento incluido na coleção realiza tratamento e fornece o proximo codCli
+    async proxCodTab(){
+        const cliente = await ClienteModel.find({}).sort({"_id":-1}).limit(1);
+        var proxCod = String
+
+        cliente.forEach(cont =>{proxCod = cont.codCli});
+
+        if (proxCod) {
+            this.body.codCli = (parseInt(proxCod) + 1).toString().padStart(6, '0');
+        } else {
+            this.body.codCli = "000001";
+        }
+
+    }
+
     validaCliente() {
 
+        console.log(this.body);
         this.cleanUp(); //Verifica se é String
 
         //Validacao    
@@ -80,6 +99,7 @@ class Cliente {
         }
 
         this.body = {
+            // codCli: this.body.codCli,
             nome: this.body.nome,
             pais: this.body.pais,
             moedaCli: this.body.moedaCli,
@@ -121,6 +141,13 @@ Cliente.buscaPorId = async function(id) {
 Cliente.buscaClientes = async function() {
     const cliente = await ClienteModel.find()
      .sort({criadoEm: -1}); //-1 ordem decrescente 1 ordem crescente
+    return cliente;
+};
+
+//Metodos Estaticos Não tem acesso ao THIS
+Cliente.buscaPorCodCli = async function(codCli) {
+    if(typeof codCli !== 'string') return;
+    const cliente = ClienteModel.find({codCli: codCli});
     return cliente;
 };
 

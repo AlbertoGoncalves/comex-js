@@ -18,22 +18,47 @@
           <form class="row g-3" action="/cliente/register" method="POST">
         <% } %>
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+          <% if(cliente._id) { %>
+
+          <% } else { %>
+
+          <% } %>
+
+          
+          
+
+          <div class="col-md-6">
+            <label class="form-label">Cod. Cliente</label>
+            <input value="<%= cliente.codCli %>" type="text" class="form-control" name="codCli" disabled>
+          </div>
+          
           <div class="col-md-6">
             <label class="form-label">Cliente</label>
             <input value="<%= cliente.nome %>" type="text" class="form-control" name="nome">
           </div>
+          
           <div class="col-md-6">
             <label class="form-label">Pais</label>
-            <input value="<%= cliente.pais %>" type="text" class="form-control" name="pais">
+            <select value="<%= cliente.pais %>" type="text" class="form-control" name="pais">
+              <option><%= cliente.pais %></option>
+              <%- include('includes/paises') %> 
+            </select>
           </div>
+          
           <div class="col-md-6">
             <label class="form-label">Moeda de faturamento</label>
-            <input value="<%= cliente.moedaCli %>" type="text" class="form-control" name="moedaCli">
+            <select value="<%= cliente.moedaCli %>" type="text" class="form-control" name="moedaCli">
+              <option><%= cliente.moedaCli %></option>
+              <%- include('includes/Moedas'); %>
+            </select>
           </div>
+          
           <div class="col-md-6">
             <label class="form-label">E-mail</label>
             <input value="<%= cliente.email %>" type="text" class="form-control" name="email">
           </div>
+          
           <div class="col-md-6">
             <label class="form-label">Telefone</label>
             <input value="<%= cliente.telefone %>" type="text" class="form-control" name="telefone">
@@ -43,8 +68,6 @@
             <button type="submit" class="btn btn-primary">Salvar</button>
           </div>
         </form>
-
-
 
       </div>
     

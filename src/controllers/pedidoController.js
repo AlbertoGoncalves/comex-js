@@ -1,14 +1,17 @@
 const { async } = require('regenerator-runtime');
 const Pedido = require('../models/PedidoModel');
 const ItemPedido = require('../models/ItemPedidoModel');
+const Cliente = require('../models/ClienteModel');
+const Produto = require('../models/ProdutoModel');
 
 exports.index = async (req, res) => {
   const pedido = await Pedido.buscaPedidos();
   res.render('pedidoVenda', { pedido });
 };
 
-exports.cadastro = (req, res) => {
-  res.render('cadPedido', {pedido:{}});  
+exports.cadastro = async (req, res) => {
+  const cliente = await Cliente.buscaClientes();
+  res.render('cadPedido', {pedido:{},cliente});  
 };
 
 
@@ -42,12 +45,15 @@ exports.editIndex = async function(req, res) {
   if(!req.params.id) return res.render('404');
 
   const pedido = await Pedido.buscaPorId(req.params.id);
-  
-  const itemPedido = await ItemPedido.buscaItemPedidos(req.params.id);
 
+  // const cliente = await Cliente.buscaPorCodCli(pedido.codCli);
+  const produto = await Produto.buscaProdutos();
+
+  const itemPedido = await ItemPedido.buscaItemPedidos(req.params.id);
+  
   if(!pedido) return res.render('404');
   
-  res.render('cadPedido', { pedido, itemPedido });
+  res.render('cadPedido', { pedido, itemPedido, produto});
 };  
 
 

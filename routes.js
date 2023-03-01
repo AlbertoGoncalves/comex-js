@@ -57,7 +57,7 @@ route.get ('/pedido/delete/:id', loginRequired, pedidoController.delete);
 
 const itemPedidoController = require('./src/controllers/itemPedidoController');
 // Rotas de Item Pedido
-route.post('/itemPedido/register', loginRequired, itemPedidoController.register);
+route.post('/itemPedido/register/:id', loginRequired, itemPedidoController.register);
 route.get ('/itemPedido/cadastro/:id', loginRequired, itemPedidoController.editIndex);
 route.post('/itemPedido/edit/:id', loginRequired, itemPedidoController.edit);
 route.get ('/itemPedido/delete/:id', loginRequired, itemPedidoController.delete);

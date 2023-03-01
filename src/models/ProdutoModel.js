@@ -113,6 +113,15 @@ Produto.buscaProdutos = async function() {
     return produto;
 };
 
+
+
+//Metodos Estaticos Não tem acesso ao THIS
+Produto.buscaPorProduto = async function(codProd) {
+    if(typeof codProd !== 'string') return;
+    const produto = ProdutoModel.find({cod: codProd});
+    return produto;
+};
+
 Produto.delete = async function(id) {
     if(typeof id !== 'string') return;
     const produto = await ProdutoModel.findOneAndDelete({_id: id});
