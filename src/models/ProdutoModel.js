@@ -23,8 +23,11 @@ class Produto {
     }
 
     async register() {
+
         this.validaProduto();
         
+        await this.proxCodTab();
+
         if(this.errors.length > 0) return;
 
         await this.codExiste();
@@ -37,6 +40,21 @@ class Produto {
 
 
     }
+
+        //Busca o utimo elemento incluido na coleção realiza tratamento e fornece o proximo codCli
+        async proxCodTab(){
+            this.produto = await ProdutoModel.find({}).sort({"_id":-1}).limit(1);
+            var proxCod = String
+    
+            this.produto.forEach(cont =>{proxCod = cont.cod});
+    
+            if (proxCod) {
+                this.body.cod = (parseInt(proxCod) + 1).toString().padStart(6, '0');
+            } else {
+                this.body.cod = "000001";
+            }
+    
+        }
 
     async codExiste() {
         if(this.body.cod) { 
@@ -57,7 +75,7 @@ class Produto {
         this.cleanUp(); //Verifica se é String
 
         //Validacao    
-        if(!this.body.cod) this.errors.push('Codigo do produto é uma informação obrigatoria')
+        // if(!this.body.cod) this.errors.push('Codigo do produto é uma informação obrigatoria')
         if(!this.body.nome) this.errors.push('Nome do produto é uma informação obrigatoria')
         if(!this.body.pesoLiq) this.errors.push('Peso liquido do produto é uma informação obrigatoria')
 

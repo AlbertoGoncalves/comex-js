@@ -64,10 +64,10 @@ class Cliente {
 
     //Busca o utimo elemento incluido na coleção realiza tratamento e fornece o proximo codCli
     async proxCodTab(){
-        const cliente = await ClienteModel.find({}).sort({"_id":-1}).limit(1);
+        this.cliente = await ClienteModel.find({}).sort({"_id":-1}).limit(1);
         var proxCod = String
 
-        cliente.forEach(cont =>{proxCod = cont.codCli});
+        this.cliente.forEach(cont =>{proxCod = cont.codCli});
 
         if (proxCod) {
             this.body.codCli = (parseInt(proxCod) + 1).toString().padStart(6, '0');
