@@ -23,6 +23,8 @@ Criar sistema Online que permita criar e calcular pedidos de faturamento COMEX, 
     * Conclusão de projeto.
     
 ## Preview
+https://user-images.githubusercontent.com/91420997/222294515-cdf30bae-66c1-4f94-8623-ead0d8d5b55b.mp4
+
 
 ## Meta
 
