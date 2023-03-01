@@ -2,6 +2,10 @@
 
 > Validação de conhecimento usando JS, webpack, node.js e bootstrap.
 
+## Objetivo
+
+Criar sistema Online que permita criar e calcular pedidos de faturamento COMEX, necessario criar cadastro de Produtos, Clientes, Pedidos, tratar a conversão entre moedas de faturamento, conversão de moeda para frete internacional e frete rodoviário.
+
 ## Histórico de lançamentos
 
 * 0.0.1
@@ -17,6 +21,8 @@
     
 * 0.0.4
     * Conclusão de projeto.
+    
+## Preview
 
 ## Meta
 
